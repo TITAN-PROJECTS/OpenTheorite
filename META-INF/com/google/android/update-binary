@@ -1,0 +1,92 @@
+#!/sbin/sh
+#
+# Initialiser, simple MMT
+# Written by UsiFX, pedrozzz0
+#
+# Copyright Identiter: GPL-3.0
+# Copyright (C) 2023~2024 Kartik728 <titanupdates728@gmail.com>
+#
+
+umask 022
+
+
+# Global vars
+TMPDIR="/dev/tmp"
+PERSISTDIR="/sbin/.magisk/mirror/persist"
+
+# Echo before loading util_functions
+ui_print() { echo "$1"; }
+
+rmtouch() { [ -e "$1" ] && rm -rf "$1" 2>/dev/null; }
+
+
+rmtouch "$TMPDIR"
+mkdir -p "$TMPDIR"
+
+#
+# setup Env.
+#
+
+OUTFD="$2"
+ZIPFILE="$3"
+
+mount /data 2>/dev/null
+
+# Load utility functions
+. "/data/adb/magisk/util_functions.sh"
+
+# Preperation for flashable zips
+setup_flashable
+
+# Mount partitions
+mount_partitions
+
+# Detect version and architecture
+api_level_arch_detect
+
+# Setup busybox and binaries
+$BOOTMODE && boot_actions || recovery_actions
+
+#
+# Preparation
+#
+
+# Extract prop file
+unzip -o "$ZIPFILE" module.prop -d "$TMPDIR" >&2
+[ ! -f "$TMPDIR/module.prop" ] && abort "[!] Unable to extract zip file!"
+
+# Mod vars
+NVBASE="/data/adb"
+$BOOTMODE && MODDIRNAME=modules_update || MODDIRNAME=modules
+MODULEROOT="$NVBASE/$MODDIRNAME"
+MODID="$(grep_prop "id" "$TMPDIR/module.prop")"
+MODPATH="$MODULEROOT/$MODID"
+MODNAME="$(grep_prop "name" "$TMPDIR/module.prop")"
+
+# Create mod paths
+rmtouch "$MODPATH"
+mkdir -p "$MODPATH"
+
+#
+# Installation
+#
+
+# Extract to $MODPATH
+unzip -o "$ZIPFILE" -d "$MODPATH" >&2
+
+# load functions
+. "$MODPATH/common/functions.sh"
+
+#
+# finialization
+#
+
+cd /
+"$BOOTMODE" || recovery_cleanup
+ui_print "[*] Cleaning place holders..."
+rmtouch "$MODPATH/system/placeholder"
+rmtouch "$MODPATH/system/bin/placeholder"
+rmtouch "$MODPATH/system/etc/placeholder"
+rmtouch "$TMPDIR"
+ui_print "[*] Done."
+exit 0

@@ -1,0 +1,67 @@
+## THEORITE TWEAKS ##
+
+# Android Logging Stuffs #
+debugtool.anrhistory=0
+ro.com.google.locationfeatures=0
+ro.com.google.networklocation=0
+profiler.debugmonitor=false
+profiler.launch=false
+profiler.hung.dumpdobugreport=false
+logcat.live=disable
+debugtool.anrhistory=0
+debug.atrace.tags.enableflags=0
+profiler.force_disable_ulog=true
+profiler.force_disable_err_rpt=true
+logcat.live=disable
+
+# User-Interface Stuffs #
+persist.service.lgospd.enable=0
+persist.service.pcsync.enable=0
+ro.ril.enable.a52=1
+ro.ril.enable.a53=0
+
+# Dalwik Stuffs #
+persist.android.strictmode=0
+ro.kernel.android.checkjni=0
+ro.kernel.checkjni=0
+ro.config.nocheckin=1
+ro.compcache.default=0
+dalvik.vm.execution-mode=int:jit
+dalvik.vm.verify-bytecode=true
+dalvik.vm.jmiopts=forcecopy
+debug.kill_allocating_task=0
+ro.ext4fs=1
+
+# Battery Stuffs #
+persist.sys.shutdown.mode=hibernate
+persist.radio.add_power_save=0
+wifi.supplicant_scan_interval=225
+ro.ril.disable.power.collapse=1
+ro.config.hw_fast_dormancy=1
+ro.semc.enable.fast_dormancy=true
+ro.config.hw_quickpoweron=true
+ro.mot.eri.losalert.delay=1000
+
+# Touch Stuffs #
+touch.pressure.scale=0.0001
+touch.orientationAware=0
+persist.sys.ui.hw=1
+touch.size.calibration=geometric
+touch.size.scale=1
+touch.size.bias=0
+touch.size.isSummed=0
+persist.device_config.runtime_native.usap_pool_enabled=true
+touch.orientation.calibration=interpolated 
+touch.distance.calibration=area
+touch.distance.scale=0
+touch.coverage.calibration=box
+touch.pressure.scale=0
+
+# Dynamic Refreash Rate Stuffs #
+ro.vendor.smart_dfps=disable
+ro.vendor.dfps=disable
+stable.fps.enable=True
+dont.lower.fps=True
+stabilizer.fps=True
+ro.vendor.dfps.enable=false
+ro.vendor.smart_dfps.enable=false
